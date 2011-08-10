@@ -34,7 +34,7 @@
 	function friend_request_event_create_friend($event, $object_type, $object) {
 		global $CONFIG;
 			
-		if (($object instanceof ElggRelationship) && ($event == 'create') && ($object_type == 'friend') ) {
+		if (($object instanceof ElggRelationship) && (get_input("action") != "register") ) {
 			//We don't want anything happening here... (no email/etc)
 			
 			//Returning false will interrupt the rest of the chain.
@@ -48,7 +48,7 @@
 	function friend_request_event_create_friendrequest($event, $object_type, $object) {
 		global $CONFIG;
 			
-		if (($object instanceof ElggRelationship) && ($event == 'create') && ($object_type == 'friendrequest')) {
+		if (($object instanceof ElggRelationship)) {
 			$user_one = get_entity($object->guid_one);
 			$user_two = get_entity($object->guid_two);
 			
@@ -63,9 +63,7 @@
 	}
 	
 	function friend_request_page_handler($page) {
-		global $CONFIG;
-		
-		include($CONFIG->pluginspath . "friend_request/index.php"); 
+		include(dirname(__FILE__) . "/index.php"); 
 	}
 	
 	function friend_request_pagesetup(){
@@ -85,12 +83,7 @@
 		}
 		
 		// Show menu link in the correct context
-		if(isloggedin() && 
-			(get_context() == "friends" ||
-			get_context() == "friendsof" ||
-			get_context() == "collections" ||
-			get_context() == "messages")
-		){
+		if(isloggedin() && in_array(get_context(), array("friends", "friendsof", "collections", "messages"))){
 			$options = array(
 				"type" => "user",
 				"count" => true,
@@ -115,9 +108,9 @@
 	register_elgg_event_handler('pagesetup', 'system', 'friend_request_pagesetup');
 	
 	//Our friendrequest handlers...
-	register_action("friend_request/approve", false, $CONFIG->pluginspath . "friend_request/actions/approve.php");
-   	register_action("friend_request/decline", false, $CONFIG->pluginspath . "friend_request/actions/decline.php");
-   	register_action("friend_request/revoke", false, $CONFIG->pluginspath . "friend_request/actions/revoke.php");
+	register_action("friend_request/approve", false, dirname(__FILE__) . "/actions/approve.php");
+   	register_action("friend_request/decline", false, dirname(__FILE__) . "/actions/decline.php");
+   	register_action("friend_request/revoke", false, dirname(__FILE__) . "/actions/revoke.php");
    	
    	//Regular Elgg engine sends out an email via an event. The 400 priority will let us run first.
 	//Then we return false to stop the event chain. The normal event handler will never get to run.
