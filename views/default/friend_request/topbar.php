@@ -21,7 +21,7 @@
 		);
 		
 		if($count = elgg_get_entities_from_relationship($options)){
-			echo "<a href='" . $CONFIG->wwwroot . "pg/friend_request' class='new_friendrequests' title='" . elgg_echo('friend_request:new') . "'>[" . $count . "]</a>";
+			echo elgg_view("output/url", array("href" => $vars["url"] . "pg/friend_request", "text" => "[" . $count . "]", "class" => "new_friendrequests"));
 		}
 	}
 ?>

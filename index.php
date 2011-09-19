@@ -21,18 +21,26 @@
 	// fix to show collections links
 	collections_submenu_items();
 	
-	// Get all the data
-	$received_count = get_entities_from_relationship("friendrequest", $user->guid, true, "user", "", 0, "", 0, 0, true);
-	$received_requests = get_entities_from_relationship("friendrequest", $user->guid, true, "user", "", 0, "", $received_count);
+	$options = array(
+		"type" => "user",
+		"limit" => false,
+		"relationship" => "friendrequest",
+		"relationship_guid" => $user->getGUID(),
+		"inverse_relationship" => true
+	);
 	
-	$sent_count = get_entities_from_relationship("friendrequest", $user->guid, false, "user", "", 0, "", 0, 0, true);
-	$sent_requests = get_entities_from_relationship("friendrequest", $user->guid, false, "user", "", 0, "", $sent_count);
+	// Get all received requests
+	$received_requests = elgg_get_entities_from_relationship($options);
+	
+	// Get all received requests
+	$options["inverse_relationship"] = false;
+	$sent_requests = elgg_get_entities_from_relationship($options);
 	
 	// Get page elements
 	$title = elgg_view_title(elgg_echo('friend_request:title'));
 	
-	$received = elgg_view("friend_request/received", array("entities" => $received_requests, "request_count" => $received_count));
-	$sent = elgg_view("friend_request/sent", array("entities" => $sent_requests, "request_count" => $sent_count));
+	$received = elgg_view("friend_request/received", array("entities" => $received_requests));
+	$sent = elgg_view("friend_request/sent", array("entities" => $sent_requests));
 	
 	// Build page
 	$page_body =  $title . $received . $sent;
@@ -40,4 +48,3 @@
 	// Draw page
 	page_draw(elgg_echo("friend_request:title"), elgg_view_layout('two_column_left_sidebar', '', $page_body));
 	
-?>

@@ -6,6 +6,8 @@
 	
 		'friend_request:new' => "New friend request",
 		
+		'friend_request:friend:add:pending' => "Friend request pending",
+		
 		'friend_request:newfriend:subject' => "%s wants to be your friend!",
 		'friend_request:newfriend:body' => "%s wants to be your friend! But they are waiting for you to approve the request...so login now so you can approve the request!
 

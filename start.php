@@ -70,25 +70,15 @@
 		global $CONFIG;
 		
 		// Remove link to friendsof
-		if(!empty($CONFIG->submenu["a"])){
-			$submenu_links = &$CONFIG->submenu["a"];
-			$lang_friendsof = elgg_echo("friends:of");
-			
-			foreach($submenu_links as $index => $object){
-				if($object->name == $lang_friendsof){
-					unset($submenu_links[$index]);
-					break;
-				}
-			}
-		}
+		remove_submenu_item(elgg_echo("friends:of"));
 		
 		// Show menu link in the correct context
-		if(isloggedin() && in_array(get_context(), array("friends", "friendsof", "collections", "messages"))){
+		if(($user_guid = get_loggedin_userid()) && in_array(get_context(), array("friends", "friendsof", "collections", "messages"))){
 			$options = array(
 				"type" => "user",
 				"count" => true,
 				"relationship" => "friendrequest",
-				"relationship_guid" => get_loggedin_userid(),
+				"relationship_guid" => $user_guid,
 				"inverse_relationship" => true
 			);
 			

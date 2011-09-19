@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plugin_manifest>
 	<field key="author" value="ColdTrick IT Solutions" />
-	<field key="version" value="2.2.3" />
+	<field key="version" value="2.2.4" />
 	<field key="description" value="Let users confirm friend requests. Make all friend requests reciprocal. Based on friend_request by Bosssumon and Zac Hopkinson" />
 	<field key="website" value="http://www.coldtrick.com" />
 	<field key="copyright" value="(C) ColdTrick 2009" />
 	<field key="licence" value="GNU Public License version 2" />
-	<field key="elgg_version" value="2010040201" />
+	<field key="elgg_version" value="2011052801" />
 </plugin_manifest>
 <!--
 =================
@@ -19,6 +19,11 @@ To Do
 =================
 Version History
 =================
+2.2.4 (2011-09-19):
+	- fixed: elgg depricated functions
+	- changed: used more elgg functions
+	- changed: user profile menu now shows pending request
+
 2.2.3 (2011-08-10):
 	- fixed: conflict with invitefriends (thanks to AV-2 http://community.elgg.org/pg/profile/vectorraster)
 

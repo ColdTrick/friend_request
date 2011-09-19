@@ -10,12 +10,11 @@
 	 * @version 2.0
 	 */
 
-	$count = $vars["request_count"];
 	$entities = $vars["entities"];
 	
 	$content = "";
 	
-	if($count > 0){
+	if(!empty($entities)){
 		foreach($entities as $entity){
 			$icon = elgg_view("profile/icon", array("entity" => $entity, "size" => "small"));
 			
