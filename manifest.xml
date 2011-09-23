@@ -19,6 +19,9 @@ To Do
 =================
 Version History
 =================
+x.x:
+	- fixed: link on profile actions when pending friend request
+
 2.2.4 (2011-09-19):
 	- fixed: elgg depricated functions
 	- changed: used more elgg functions

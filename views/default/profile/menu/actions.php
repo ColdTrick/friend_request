@@ -20,7 +20,7 @@
 			} else {
 				echo "<p class='user_menu_addfriend'>";
 				if(check_entity_relationship($loggedin_user->getGUID(), "friendrequest", $user->getGUID())){
-					echo elgg_echo("friend_request:friend:add:pending");
+					echo elgg_view("output/url", array("href" => $vars["url"] . "pg/friend_request#friend_request_sent_listing", "text" => elgg_echo("friend_request:friend:add:pending")));
 				} else {
 					echo elgg_view("output/url", array("href" => $vars["url"] . "action/friends/add?friend=" . $user->getGUID(), "text" => elgg_echo("friend:add"), "is_action" => true));
 				}
