@@ -1,84 +1,74 @@
 <?php
-	/**
-	 * Friend request plugin
-	 * Requires a friend to confirm your request to become a connection
-	 * 
-	 * Original design by Bosssumon and Zac Hopkinson
-	 * 
-	 * @package friend_request
-	 * @author ColdTrick IT Solutions
-	 * @copyright Coldtrick IT Solutions 2009
-	 * @link http://www.coldtrick.com/
-	 * @version 2.1
-	 */
+	
+	require_once(dirname(__FILE__) . "/lib/events.php");
+	require_once(dirname(__FILE__) . "/lib/hooks.php");
 
 	function friend_request_init() {
 		//Extend CSS
-		elgg_extend_view('css', 'friend_request/css');
-		
-		if(isloggedin()){
-			//Extend topbar to add our link if needed
-			elgg_extend_view('elgg_topbar/extend', 'friend_request/topbar');
-		}
+		elgg_extend_view('css/elgg', 'friend_request/css');
 		
 		//This overwrites the original friend requesting stuff.
-		register_action("friends/add", false, dirname(__FILE__) . "/actions/friends/add.php");
+		elgg_register_action("friends/add", dirname(__FILE__) . "/actions/friends/add.php");
 		
 		//We need to override the friend remove action to remove the relationship we created
-	   	register_action("friends/remove", false, dirname(__FILE__) . "/actions/friends/removefriend.php");
+	   	elgg_register_action("friends/remove", dirname(__FILE__) . "/actions/friends/removefriend.php");
 		
+	   	// unregister friendsof
+	   	elgg_unregister_page_handler("friendsof");
+	   	
+	   	// unregister default elgg friend handler
+	   	elgg_unregister_event_handler("create", "friend", "relationship_notification_hook");
+	   	
 		//This will let uesrs view their friend requests
-		register_page_handler('friend_request', 'friend_request_page_handler');
-	}
-	
-	function friend_request_event_create_friend($event, $object_type, $object) {
-		global $CONFIG;
-			
-		if (($object instanceof ElggRelationship) && (get_input("action") != "register") ) {
-			//We don't want anything happening here... (no email/etc)
-			
-			//Returning false will interrupt the rest of the chain.
-			//The normal handler for the create friend event has a priority of 500 so it will never be called.	
-			return false;
-		}
-		return true; //Shouldn't get here...
-	}
-	
-	//Allow us to send an notification email:
-	function friend_request_event_create_friendrequest($event, $object_type, $object) {
-		global $CONFIG;
-			
-		if (($object instanceof ElggRelationship)) {
-			$user_one = get_entity($object->guid_one);
-			$user_two = get_entity($object->guid_two);
-			
-			$view_friends_url = $CONFIG->wwwroot . "pg/friend_request";
-			
-			// Notify target user
-			$subject = sprintf(elgg_echo('friend_request:newfriend:subject'), $user_one->name);
-			$message = sprintf(elgg_echo("friend_request:newfriend:body"), $user_one->name, $view_friends_url);
-			
-			return notify_user($object->guid_two, $object->guid_one, $subject, $message); 
-		}
+		elgg_register_page_handler('friend_request', 'friend_request_page_handler');
 	}
 	
 	function friend_request_page_handler($page) {
-		include(dirname(__FILE__) . "/index.php"); 
+		
+		if(isset($page[0])){
+			set_input("username", $page[0]);
+		}
+		
+		include(dirname(__FILE__) . "/pages/index.php"); 
 	}
 	
 	function friend_request_pagesetup(){
-		global $CONFIG;
+		
+		$context = elgg_get_context();
+		$page_owner = elgg_get_page_owner_entity();
 		
 		// Remove link to friendsof
-		remove_submenu_item(elgg_echo("friends:of"));
+		elgg_unregister_menu_item("page", "friends:of");
 		
-		// Show menu link in the correct context
-		if(($user_guid = get_loggedin_userid()) && in_array(get_context(), array("friends", "friendsof", "collections", "messages"))){
+		if($user = elgg_get_logged_in_user_entity()){
 			$options = array(
 				"type" => "user",
 				"count" => true,
 				"relationship" => "friendrequest",
-				"relationship_guid" => $user_guid,
+				"relationship_guid" => $user->getGUID(),
+				"inverse_relationship" => true
+			);
+			
+			if($count = elgg_get_entities_from_relationship($options)){
+				$params = array(
+					"name" => "friend_request",
+					"href" => "friend_request/" . $user->username,
+					"text" => elgg_view_icon("user") . "[" . $count . "]",
+					"title" => elgg_echo("friend_request:menu"),
+					"priority" => 301
+				);
+				
+				elgg_register_menu_item("topbar", $params);
+			}
+		}
+		
+		// Show menu link in the correct context
+		if(in_array($context, array("friends", "friendsof", "collections", "messages")) && !empty($page_owner) && $page_owner->canEdit()){
+			$options = array(
+				"type" => "user",
+				"count" => true,
+				"relationship" => "friendrequest",
+				"relationship_guid" => $page_owner->getGUID(),
 				"inverse_relationship" => true
 			);
 			
@@ -88,25 +78,31 @@
 				$extra = "";
 			}
 			
-			add_submenu_item(elgg_echo("friend_request:menu") . $extra, $CONFIG->wwwroot . "pg/friend_request/", "b");
+			// add menu item
+			$menu_item = array(
+				"name" => "friend_request",
+				"text" => elgg_echo("friend_request:menu") . $extra,
+				"href" => "friend_request/" . $page_owner->username,
+				"contexts" => array("friends", "friendsof", "collections", "messages"),
+				"section" => "friend_request"
+			);
+			
+			elgg_register_menu_item("page", $menu_item);
 		}
-		
 	}
 	
 	// Default event handlers
-	register_elgg_event_handler('init', 'system', 'friend_request_init', 100);
-	register_elgg_event_handler('pagesetup', 'system', 'friend_request_pagesetup');
-	
-	//Our friendrequest handlers...
-	register_action("friend_request/approve", false, dirname(__FILE__) . "/actions/approve.php");
-   	register_action("friend_request/decline", false, dirname(__FILE__) . "/actions/decline.php");
-   	register_action("friend_request/revoke", false, dirname(__FILE__) . "/actions/revoke.php");
-   	
-   	//Regular Elgg engine sends out an email via an event. The 400 priority will let us run first.
-	//Then we return false to stop the event chain. The normal event handler will never get to run.
-	register_elgg_event_handler('create', 'friend', 'friend_request_event_create_friend', 400);
+	elgg_register_event_handler("init", "system", "friend_request_init");
+	elgg_register_event_handler("pagesetup", "system", "friend_request_pagesetup");
 	
 	//Handle our add action event:
-	register_elgg_event_handler('create', 'friendrequest', 'friend_request_event_create_friendrequest');
+	elgg_register_event_handler("create", "friendrequest", "friend_request_event_create_friendrequest");
 	
-?>
+	// user menu
+	elgg_register_plugin_hook_handler("register", "menu:user_hover", "friend_request_user_menu_handler", 550);
+	
+	//Our friendrequest handlers...
+	elgg_register_action("friend_request/approve", dirname(__FILE__) . "/actions/approve.php");
+   	elgg_register_action("friend_request/decline", dirname(__FILE__) . "/actions/decline.php");
+   	elgg_register_action("friend_request/revoke", dirname(__FILE__) . "/actions/revoke.php");
+   	

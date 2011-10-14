@@ -1,29 +1,17 @@
 <?php
-	/**
-	 * Friend request plugin
-	 * Revoke a friend request
-	 * 
-	 * @package friend_request
-	 * @author ColdTrick IT Solutions
-	 * @copyright Coldtrick IT Solutions 2009
-	 * @link http://www.coldtrick.com/
-	 * @version 2.0
-	 */
-
+	
 	gatekeeper();
 	
 	$friend_guid = (int) get_input("guid");
-	$friend = get_user($friend_guid);
 	
-	if(!empty($friend)){
-		$user = get_loggedin_user();
+	if($friend = get_user($friend_guid)){
+		$user = elgg_get_logged_in_user_entity();
 		
-		if(remove_entity_relationship($user->guid, 'friendrequest', $friend->guid)) {
+		if(remove_entity_relationship($user->getGUID(), 'friendrequest', $friend->getGUID())) {
 			system_message(elgg_echo("friend_request:revoke:success"));
 		} else {
-			system_message(elgg_echo("friend_request:revoke:fail"));
+			register_error(elgg_echo("friend_request:revoke:fail"));
 		}
 	}
 	
-	forward($_SERVER['HTTP_REFERER']);
-?>
+	forward(REFERER);

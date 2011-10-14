@@ -1,24 +1,12 @@
 <?php
-	/**
-	 * Friend request plugin
-	 * Approve a friend request and make connection both ways
-	 * 
-	 * @package friend_request
-	 * @author ColdTrick IT Solutions
-	 * @copyright Coldtrick IT Solutions 2009
-	 * @link http://www.coldtrick.com/
-	 * @version 2.0
-	 */
-
 	gatekeeper();
 	
 	$friend_guid = (int) get_input("guid");
-	$friend = get_user($friend_guid);
 	
-	if(!empty($friend)){
-		$user = get_loggedin_user();
+	if($friend = get_user($friend_guid)){
+		$user = elgg_get_logged_in_user_entity();
 		
-		if(remove_entity_relationship($friend->guid, 'friendrequest', $user->guid)) {
+		if(remove_entity_relationship($friend->getGUID(), 'friendrequest', $user->getGUID())) {
 			global $CONFIG;
 			
 			if(isset($CONFIG->events['create']['friend'])) {
@@ -26,20 +14,20 @@
 				$CONFIG->events['create']['friend'] = array();			//Removes any event handlers
 			}
 			
-			$user->addFriend($friend->guid);
-			$friend->addFriend($user->guid);			//Friends mean reciprical...
+			$user->addFriend($friend->getGUID());
+			$friend->addFriend($user->getGUID());			//Friends mean reciprical...
 			
 			if(isset($CONFIG->events['create']['friend'])) {
 				$CONFIG->events['create']['friend'] = $oldEventHander;
 			}
 			
-			system_message(sprintf(elgg_echo('friend_request:approve:successful'), $friend->name));
+			system_message(elgg_echo('friend_request:approve:successful'), array($friend->name));
 			// add to river
-			add_to_river('friends/river/create', 'friend', $user->guid, $friend->guid);
+			add_to_river('friends/river/create', 'friend', $user->getGUID(), $friend->getGUID());
 		} else {
-			register_error(sprintf(elgg_echo('friend_request:approve:fail'), $friend->name));
+			register_error(elgg_echo('friend_request:approve:fail'), array($friend->name));
 		}
 	}
 	
-	forward($_SERVER['HTTP_REFERER']);
-?>
+	forward(REFERER);
+	

@@ -1,25 +1,23 @@
 <?php
-	/**
-	 * Friend request plugin
-	 * List all the requests (sent and received)
-	 * 
-	 * @package friend_request
-	 * @author ColdTrick IT Solutions
-	 * @copyright Coldtrick IT Solutions 2009
-	 * @link http://www.coldtrick.com/
-	 * @version 2.1
-	 */
-
 	gatekeeper();
 	
-	$user = get_loggedin_user();
+	$user = elgg_get_page_owner_entity();
+	if(!elgg_instanceof($user, "user")){
+		$user = elgg_get_logged_in_user_entity();
+		elgg_set_page_owner_guid($user->getGUID());
+	}
+	
+	if(!$user->canEdit()){
+		forward(REFERER);
+	}
 	
 	// set the correct context and page owner
-	set_context("friends");
-	set_page_owner($user->guid);
+	elgg_set_context("friends");
 	
 	// fix to show collections links
-	collections_submenu_items();
+	if($user->getGUID() == elgg_get_logged_in_user_guid()){
+		collections_submenu_items();
+	}
 	
 	$options = array(
 		"type" => "user",
@@ -37,14 +35,20 @@
 	$sent_requests = elgg_get_entities_from_relationship($options);
 	
 	// Get page elements
-	$title = elgg_view_title(elgg_echo('friend_request:title'));
+	$title_text = elgg_echo('friend_request:title', array($user->name));
+	$title = elgg_view_title($title_text);
 	
 	$received = elgg_view("friend_request/received", array("entities" => $received_requests));
 	$sent = elgg_view("friend_request/sent", array("entities" => $sent_requests));
 	
 	// Build page
-	$page_body =  $title . $received . $sent;
+	$params = array(
+		"title" => $title_text,
+		"content" => $received . $sent
+	);
+	
+	$body = elgg_view_layout("one_sidebar", $params);
 	
 	// Draw page
-	page_draw(elgg_echo("friend_request:title"), elgg_view_layout('two_column_left_sidebar', '', $page_body));
+	echo elgg_view_page($title_text, $body);
 	
