@@ -19,6 +19,10 @@
 		collections_submenu_items();
 	}
 	
+	// breadcrumb
+	elgg_push_breadcrumb(elgg_echo("friends"), "friends/" . $user->username);
+	elgg_push_breadcrumb(elgg_echo("friend_request:menu"));
+	
 	$options = array(
 		"type" => "user",
 		"limit" => false,
