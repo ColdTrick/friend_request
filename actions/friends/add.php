@@ -24,7 +24,7 @@
 				}
 				
 				$user->addFriend($friend->getGUID());
-				system_message(elgg_echo("friends:add:successful"), array($friend->name));
+				system_message(elgg_echo("friends:add:successful", array($friend->name)));
 				
 				if(isset($CONFIG->events['create']['friend'])) {
 					$CONFIG->events['create']['friend'] = $oldEventHander;
@@ -32,7 +32,7 @@
 				
 				forward(REFERER);
 			} catch (Exception $e) {
-				register_error(elgg_echo("friends:add:failure"), array($friend->name));
+				register_error(elgg_echo("friends:add:failure", array($friend->name)));
 				$errors = true;
 			}
 		} elseif(check_entity_relationship($friend->getGUID(), "friendrequest", $user->getGUID())){
@@ -50,30 +50,30 @@
 					$CONFIG->events['create']['friend'] = $oldEventHander;
 				}
 				
-				system_message(elgg_echo('friend_request:approve:successful'), array($friend->name));
+				system_message(elgg_echo('friend_request:approve:successful', array($friend->name)));
 				// add to river
 				add_to_river('friends/river/create', 'friend', $user->getGUID(), $friend->getGUID());
 				
 				forward(REFERER);
 			} else {
-				register_error(elgg_echo('friend_request:approve:fail'), array($friend->name));
+				register_error(elgg_echo('friend_request:approve:fail', array($friend->name)));
 			}
 		} else {
 			try {
 				$result = add_entity_relationship($user->getGUID(), "friendrequest", $friend->getGUID());
 				if($result == false) {
 					$errors = true;
-					register_error(elgg_echo("friend_request:add:exists"), array($friend->name));
+					register_error(elgg_echo("friend_request:add:exists", array($friend->name)));
 				}
 			} catch(Exception $e) {	//register_error calls insert_data which CAN raise Exceptions.
 				$errors = true;
-				register_error(elgg_echo("friend_request:add:exists"), array($friend->name));
+				register_error(elgg_echo("friend_request:add:exists", array($friend->name)));
 			}
 		}
 	}
 	
 	if(!$errors) {
-		system_message(elgg_echo("friend_request:add:successful"), array($friend->name));
+		system_message(elgg_echo("friend_request:add:successful", array($friend->name)));
 	}
 	
 	forward(REFERER);

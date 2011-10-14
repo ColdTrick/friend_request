@@ -22,16 +22,16 @@
 				// do nothing
 			}
 		} catch (Exception $e) {
-			register_error(elgg_echo("friends:remove:failure"), array($friend->name));
+			register_error(elgg_echo("friends:remove:failure", array($friend->name)));
 			$errors = true;
 		}
 	} else {
-		register_error(elgg_echo("friends:remove:failure"), array($friend_guid));
+		register_error(elgg_echo("friends:remove:failure", array($friend_guid)));
 		$errors = true;
 	}
 	
 	if(!$errors) {
-		system_message(elgg_echo("friends:remove:successful"), array($friend->name));
+		system_message(elgg_echo("friends:remove:successful", array($friend->name)));
 	}			
 		
 	forward(REFERER);
