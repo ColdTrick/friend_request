@@ -16,7 +16,7 @@ The original idea for this plugin was made by Bosssumon and Zac Hopkinson
 - notification to requester on accept
 
 == 4. Version History ==
-x.x:
+3.0 (2011-11-08):
 
 - changed: Elgg 1.8 compatibility
 
