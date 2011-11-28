@@ -30,6 +30,7 @@
 		}
 		
 		include(dirname(__FILE__) . "/pages/index.php"); 
+		return true;
 	}
 	
 	function friend_request_pagesetup(){
