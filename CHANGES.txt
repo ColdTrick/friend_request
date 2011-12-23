@@ -1,5 +1,5 @@
 = Version History =
-x.x:
+3.0.2 (2011-12-23):
 
 - fixed: river events in Elgg 1.8.1+
 - changed: required Elgg version to 1.8.1
