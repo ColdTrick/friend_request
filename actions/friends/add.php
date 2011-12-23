@@ -52,7 +52,7 @@
 				
 				system_message(elgg_echo('friend_request:approve:successful', array($friend->name)));
 				// add to river
-				add_to_river('friends/river/create', 'friend', $user->getGUID(), $friend->getGUID());
+				add_to_river('river/relationship/friend/create', 'friend', $user->getGUID(), $friend->getGUID());
 				
 				forward(REFERER);
 			} else {

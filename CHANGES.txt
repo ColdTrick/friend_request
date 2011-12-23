@@ -1,4 +1,8 @@
 = Version History =
+x.x:
+
+- fixed: river events in Elgg 1.8.1+
+
 3.0.1 (2011-11-28):
 
 - fixed: page_handler issue with Elgg 1.8.1
