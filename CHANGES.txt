@@ -1,4 +1,8 @@
 = Version History =
+x.x:
+
+- added: german translation (thanks to Opteron http://community.elgg.org/pg/profile/Opteron)
+
 3.0.2 (2011-12-23):
 
 - fixed: river events in Elgg 1.8.1+
