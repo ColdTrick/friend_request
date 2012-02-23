@@ -158,7 +158,6 @@
 					}
 				}
 			}
-			var_dump($friend_request_cache[$user_guid]);
 			
 			$result = in_array($friend_guid, $friend_request_cache[$user_guid]);
 		}
