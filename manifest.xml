@@ -19,6 +19,9 @@ To Do
 =================
 Version History
 =================
+x.x:
+	- fixed: performance of checking friends / friend requests
+
 2.3 (2011-09-23):
 	- added: dutch translation
 	- fixed: link on profile actions when pending friend request

@@ -93,6 +93,79 @@
 		
 	}
 	
+	function friend_request_check_friend_relationship($friend_guid, $user_guid = 0){
+		static $friend_cache;
+		$result = false;
+		
+		if(empty($user_guid)){
+			$user_guid = get_loggedin_userid();
+		}
+		
+		$user_guid = sanitise_int($user_guid);
+		
+		if(!isset($friend_cache)){
+			$friend_cache = array();
+		}
+		
+		if(!empty($user_guid)){
+			if(!isset($friend_cache[$user_guid])){
+				$friend_cache[$user_guid] = array();
+				
+				$query = "SELECT guid_one";
+				$query .= " FROM " . get_config("dbprefix") . "entity_relationships";
+				$query .= " WHERE guid_two = " . $user_guid;
+				$query .= " AND relationship = 'friend'";
+				
+				if($data = get_data($query)){
+					foreach($data as $row){
+						$friend_cache[$user_guid][] = $row->guid_one;
+					}
+				}
+			}
+			
+			$result = in_array($friend_guid, $friend_cache[$user_guid]);
+		}
+		
+		return $result;
+	}
+	
+	function friend_request_check_friend_request_relationship($friend_guid, $user_guid = 0){
+		static $friend_request_cache;
+		$result = false;
+		
+		if(empty($user_guid)){
+			$user_guid = get_loggedin_userid();
+		}
+		
+		$user_guid = sanitise_int($user_guid);
+		
+		if(!isset($friend_request_cache)){
+			$friend_request_cache = array();
+		}
+		
+		if(!empty($user_guid)){
+			if(!isset($friend_request_cache[$user_guid])){
+				$friend_request_cache[$user_guid] = array();
+				
+				$query = "SELECT guid_two";
+				$query .= " FROM " . get_config("dbprefix") . "entity_relationships";
+				$query .= " WHERE guid_one = " . $user_guid;
+				$query .= " AND relationship = 'friendrequest'";
+				
+				if($data = get_data($query)){
+					foreach($data as $row){
+						$friend_request_cache[$user_guid][] = $row->guid_two;
+					}
+				}
+			}
+			var_dump($friend_request_cache[$user_guid]);
+			
+			$result = in_array($friend_guid, $friend_request_cache[$user_guid]);
+		}
+		
+		return $result;
+	}
+	
 	// Default event handlers
 	register_elgg_event_handler('init', 'system', 'friend_request_init', 100);
 	register_elgg_event_handler('pagesetup', 'system', 'friend_request_pagesetup');
@@ -109,4 +182,3 @@
 	//Handle our add action event:
 	register_elgg_event_handler('create', 'friendrequest', 'friend_request_event_create_friendrequest');
 	
-?>
