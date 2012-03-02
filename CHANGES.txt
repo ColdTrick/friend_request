@@ -1,5 +1,5 @@
 = Version History =
-x.x:
+3.1 (2012-03-02):
 
 - added: german translation (thanks to Opteron http://community.elgg.org/pg/profile/Opteron)
 - fixed: wrong link in new request notify (thanks to Lee http://community.elgg.org/pg/profile/8toenails)
