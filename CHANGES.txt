@@ -1,4 +1,8 @@
 = Version History =
+x.x:
+
+- fixed: small error in Englisch language file (thanks to Matt Beckett http://community.elgg.org/pg/profile/Beck24)
+
 3.1 (2012-03-02):
 
 - added: german translation (thanks to Opteron http://community.elgg.org/pg/profile/Opteron)

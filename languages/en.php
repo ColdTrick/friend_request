@@ -34,12 +34,12 @@ You can view your pending friend requests at (Make sure you are logged into the 
 		'friend_request:decline:message' => "Dear %s,
 
 %s has declined your request to become a friend.",
-		'friend_request:decline:success' => "Friend request succesfully declined",
+		'friend_request:decline:success' => "Friend request successfully declined",
 		'friend_request:decline:fail' => "Error while declining Friend request, please try again",
 		
 		// Revoke request
 		'friend_request:revoke' => "Revoke",
-		'friend_request:revoke:success' => "Friend request succesfully revoked",
+		'friend_request:revoke:success' => "Friend request successfully revoked",
 		'friend_request:revoke:fail' => "Error while revoking Friend request, please try again",
 	
 		// Views
