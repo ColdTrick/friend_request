@@ -101,6 +101,7 @@
 	
 	// user menu
 	elgg_register_plugin_hook_handler("register", "menu:user_hover", "friend_request_user_menu_handler", 550);
+	elgg_register_plugin_hook_handler("register", "menu:entity", "friend_request_entity_menu_handler", 555);
 	
 	//Our friendrequest handlers...
 	elgg_register_action("friend_request/approve", dirname(__FILE__) . "/actions/approve.php");
