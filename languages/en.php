@@ -11,9 +11,10 @@
 		'friend_request:newfriend:subject' => "%s wants to be your friend!",
 		'friend_request:newfriend:body' => "%s wants to be your friend! But they are waiting for you to approve the request...so login now so you can approve the request!
 
-You can view your pending friend requests at (Make sure you are logged into the website before clicking on the following link otherwise you will be redirected to the login page.):
-
+You can view your pending friend requests at:
 %s
+
+Make sure you are logged into the website before clicking on the following link otherwise you will be redirected to the login page.
 
 (You cannot reply to this email.)",
 		
@@ -53,4 +54,3 @@ You can view your pending friend requests at (Make sure you are logged into the 
 	);
 					
 	add_translation("en", $english);
-?>
