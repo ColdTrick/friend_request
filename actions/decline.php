@@ -1,13 +1,11 @@
 <?php
 	
-	gatekeeper();
-	
 	$friend_guid = (int) get_input("guid");
 	
 	if($friend = get_user($friend_guid)){
 		$user = elgg_get_logged_in_user_entity();
 		
-		if(remove_entity_relationship($friend->getGUID(), 'friendrequest', $user->getGUID())) {
+		if(remove_entity_relationship($friend->getGUID(), "friendrequest", $user->getGUID())) {
 			$subject = elgg_echo("friend_request:decline:subject", array($user->name));
 			$message = elgg_echo("friend_request:decline:message", array($friend->name, $user->name));
 			
