@@ -3,24 +3,40 @@
 	require_once(dirname(__FILE__) . "/lib/events.php");
 	require_once(dirname(__FILE__) . "/lib/hooks.php");
 
+	// Default event handlers
+	elgg_register_event_handler("init", "system", "friend_request_init");
+	elgg_register_event_handler("pagesetup", "system", "friend_request_pagesetup");
+	
 	function friend_request_init() {
 		//Extend CSS
 		elgg_extend_view('css/elgg', 'friend_request/css');
 		
-		//This overwrites the original friend requesting stuff.
-		elgg_register_action("friends/add", dirname(__FILE__) . "/actions/friends/add.php");
-		
-		//We need to override the friend remove action to remove the relationship we created
-	   	elgg_register_action("friends/remove", dirname(__FILE__) . "/actions/friends/removefriend.php");
-		
-	   	// unregister friendsof
-	   	elgg_unregister_page_handler("friendsof");
-	   	
-	   	// unregister default elgg friend handler
-	   	elgg_unregister_event_handler("create", "friend", "relationship_notification_hook");
-	   	
-		//This will let uesrs view their friend requests
+		// Page handlers
+		// unregister friendsof
+		elgg_unregister_page_handler("friendsof");
+		//This will let users view their friend requests
 		elgg_register_page_handler('friend_request', 'friend_request_page_handler');
+		
+		// Events
+		// unregister default elgg friend handler
+		elgg_unregister_event_handler("create", "friend", "relationship_notification_hook");
+		// Handle our add action event
+		elgg_register_event_handler("create", "friendrequest", "friend_request_event_create_friendrequest");
+		
+		// Plugin hooks
+		elgg_register_plugin_hook_handler("register", "menu:user_hover", "friend_request_user_menu_handler");
+		elgg_register_plugin_hook_handler("register", "menu:entity", "friend_request_entity_menu_handler");
+		
+		// Actions
+		// This overwrites the original friend requesting stuff.
+		elgg_register_action("friends/add", dirname(__FILE__) . "/actions/friends/add.php");
+		// We need to override the friend remove action to remove the relationship we created
+	   	elgg_register_action("friends/remove", dirname(__FILE__) . "/actions/friends/removefriend.php");
+		// friend request actions
+	   	elgg_register_action("friend_request/approve", dirname(__FILE__) . "/actions/approve.php");
+	   	elgg_register_action("friend_request/decline", dirname(__FILE__) . "/actions/decline.php");
+	   	elgg_register_action("friend_request/revoke", dirname(__FILE__) . "/actions/revoke.php");
+	   	
 	}
 	
 	function friend_request_page_handler($page) {
@@ -92,19 +108,3 @@
 		}
 	}
 	
-	// Default event handlers
-	elgg_register_event_handler("init", "system", "friend_request_init");
-	elgg_register_event_handler("pagesetup", "system", "friend_request_pagesetup");
-	
-	//Handle our add action event:
-	elgg_register_event_handler("create", "friendrequest", "friend_request_event_create_friendrequest");
-	
-	// user menu
-	elgg_register_plugin_hook_handler("register", "menu:user_hover", "friend_request_user_menu_handler", 550);
-	elgg_register_plugin_hook_handler("register", "menu:entity", "friend_request_entity_menu_handler", 555);
-	
-	//Our friendrequest handlers...
-	elgg_register_action("friend_request/approve", dirname(__FILE__) . "/actions/approve.php");
-   	elgg_register_action("friend_request/decline", dirname(__FILE__) . "/actions/decline.php");
-   	elgg_register_action("friend_request/revoke", dirname(__FILE__) . "/actions/revoke.php");
-   	
