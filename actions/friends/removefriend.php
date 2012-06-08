@@ -1,10 +1,7 @@
 <?php
 	
-	// Ensure we are logged in
-	gatekeeper();
-		
 	// Get the GUID of the user to friend
-	$friend_guid = (int) get_input('friend');
+	$friend_guid = (int) get_input("friend");
 	
 	$errors = false;
 
@@ -15,10 +12,24 @@
 		try{
 			$user->removeFriend($friend->getGUID());
 			
+			// remove river items
+			elgg_delete_river(array(
+				"view" => "river/relationship/friend/create",
+				"subject_guid" => $user->getGUID(),
+				"object_guid" => $friend->getGUID()
+			));
+			
 			try {	
 				//V1.1 - Old relationships might not have the 2 as friends...
 				$friend->removeFriend($user->getGUID());
-			}catch(Exception $e) {
+				
+				// remove river items
+				elgg_delete_river(array(
+					"view" => "river/relationship/friend/create",
+					"subject_guid" => $friend->getGUID(),
+					"object_guid" => $user->getGUID()
+				));
+			} catch(Exception $e) {
 				// do nothing
 			}
 		} catch (Exception $e) {

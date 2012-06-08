@@ -3,6 +3,8 @@ x.x:
 
 - added: direct link to add/remove friend in member listing
 - added: Dutch translation
+- added: river view now works both ways
+- added: river cleanup
 - fixed: small error in Englisch language file (thanks to Matt Beckett http://community.elgg.org/pg/profile/Beck24)
 - fixed: old link in notification
 - changed: small code optimalizations
