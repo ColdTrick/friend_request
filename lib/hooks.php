@@ -45,7 +45,8 @@
 						$result[] = ElggMenuItem::factory(array(
 							 "name" => "friend_request",
 							 "text" => elgg_echo("friend_request:friend:add:pending"),
-							 "href" => "friend_request/" . $user->username . "#friend_request_sent_listing"
+							 "href" => "friend_request/" . $user->username . "#friend_request_sent_listing",
+							 "priority" => 500
 						));
 					} else {
 						// add as friend
@@ -53,16 +54,18 @@
 							 "name" => "add_friend",
 							 "text" => elgg_echo("friend:add"),
 							 "href" => "action/friends/add?friend=" . $entity->getGUID(),
-							 "is_action" => true
+							 "is_action" => true,
+							 "priority" => 500
 						));
 					}
 				} else {
 					// is friend, se remove friend link
 					$result[] = ElggMenuItem::factory(array(
-						 "name" => "remove_friend",
-						 "text" => elgg_echo("friend:remove"),
-						 "href" => "action/friends/remove?friend=" . $entity->getGUID(),
-						 "is_action" => true
+						"name" => "remove_friend",
+						"text" => elgg_echo("friend:remove"),
+						"href" => "action/friends/remove?friend=" . $entity->getGUID(),
+						"is_action" => true,
+						"priority" => 500
 					));
 				}
 			}
