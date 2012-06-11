@@ -1,5 +1,5 @@
 = Version History =
-x.x:
+3.2 (2012-06-11):
 
 - added: direct link to add/remove friend in member listing
 - added: Dutch translation
