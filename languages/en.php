@@ -2,6 +2,7 @@
 	$english = array(
 		'friend_request' => "Friend Request",
 		'friend_request:menu' => "Friend Requests",
+		'friend_request:pending' => " pending",
 		'friend_request:title' => "Friend Requests for: %s",
 	
 		'friend_request:new' => "New friend request",
