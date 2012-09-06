@@ -66,17 +66,24 @@
 				"inverse_relationship" => true
 			);
 			
-			if($count = elgg_get_entities_from_relationship($options)){
-				$params = array(
+			// register friend request menu on topbar
+			$count_requested = elgg_get_entities_from_relationship($options);
+			$text = elgg_view_icon("user");
+			$title = elgg_echo("friend_request:menu");
+			if($count_requested != 0 )
+			{
+				$text = elgg_view_icon("user") . "<span class=\"messages-new\"> $count_requested </span>";
+				$title = elgg_echo("friend_request:menu") . " (" . $count_requested . elgg_echo("friend_request:pending") .")";
+			}
+			$params = array(
 					"name" => "friend_request",
 					"href" => "friend_request/" . $user->username,
-					"text" => elgg_view_icon("user") . "[" . $count . "]",
-					"title" => elgg_echo("friend_request:menu"),
-					"priority" => 301
-				);
-				
-				elgg_register_menu_item("topbar", $params);
-			}
+					"text" => $text, 
+					"title" => $title,
+					"priority" => 500,
+					);
+			elgg_register_menu_item("topbar", $params);
+			
 		}
 		
 		// Show menu link in the correct context
