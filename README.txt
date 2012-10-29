@@ -13,3 +13,4 @@ The original idea for this plugin was made by Bosssumon and Zac Hopkinson
 - custom message on request
 - admin options for menu options
 - notification to requester on accept
+- move menu items to hooks

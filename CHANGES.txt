@@ -1,4 +1,8 @@
 = Version History =
+x.x:
+
+- added: Spanish translation (thanks to Iknaxio Marx http://community.elgg.org/profile/iknaxio)
+
 3.2 (2012-06-11):
 
 - added: direct link to add/remove friend in member listing
