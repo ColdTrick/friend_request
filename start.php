@@ -8,9 +8,6 @@
 	elgg_register_event_handler("pagesetup", "system", "friend_request_pagesetup");
 	
 	function friend_request_init() {
-		//Extend CSS
-		elgg_extend_view('css/elgg', 'friend_request/css');
-		
 		// Page handlers
 		// unregister friendsof
 		elgg_unregister_page_handler("friendsof");

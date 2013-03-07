@@ -48,10 +48,11 @@
 	// Build page
 	$params = array(
 		"title" => $title_text,
-		"content" => $received . $sent
+		"content" => $received . $sent,
+		"filter" => false
 	);
 	
-	$body = elgg_view_layout("one_sidebar", $params);
+	$body = elgg_view_layout("content", $params);
 	
 	// Draw page
 	echo elgg_view_page($title_text, $body);
