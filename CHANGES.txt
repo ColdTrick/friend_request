@@ -2,6 +2,7 @@
 x.x:
 
 - added: Spanish translation (thanks to Iknaxio Marx http://community.elgg.org/profile/iknaxio)
+- added: notification on friend accept
 
 3.2 (2012-06-11):
 

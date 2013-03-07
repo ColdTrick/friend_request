@@ -26,6 +26,10 @@ Make sure you are logged into the website before clicking on the following link 
 		
 		// Approve request
 		'friend_request:approve' => "Approve",
+		'friend_request:approve:subject' => "%s has accepted your friend request",
+		'friend_request:approve:message' => "Dear %s,
+	
+	%s has accepted your request to become a friend.",
 		'friend_request:approve:successful' => "%s is now a friend",
 		'friend_request:approve:fail' => "Error while creating friend relation with %s",
 	
