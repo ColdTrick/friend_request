@@ -3,6 +3,7 @@ x.x:
 
 - added: Spanish translation (thanks to Iknaxio Marx http://community.elgg.org/profile/iknaxio)
 - added: notification on friend accept
+- added: French translation (thanks to https://github.com/GeekShadow PR #3)
 - changed: layout and code cleanup
 - changed: styling of topbar icon (inspired by https://github.com/minhtinh2604 PR #1)
 - removed: CSS because it's no longer needed
