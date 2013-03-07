@@ -8,6 +8,9 @@
 	elgg_register_event_handler("pagesetup", "system", "friend_request_pagesetup");
 	
 	function friend_request_init() {
+		// extend css
+		elgg_extend_view("css/elgg", "css/friend_request/site");
+		
 		// Page handlers
 		// unregister friendsof
 		elgg_unregister_page_handler("friendsof");
@@ -67,7 +70,7 @@
 				$params = array(
 					"name" => "friend_request",
 					"href" => "friend_request/" . $user->username,
-					"text" => elgg_view_icon("user") . "[" . $count . "]",
+					"text" => elgg_view_icon("user") . "<span class='friend-request-new'>" . $count . "</span>",
 					"title" => elgg_echo("friend_request:menu"),
 					"priority" => 301
 				);
