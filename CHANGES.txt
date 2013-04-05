@@ -1,5 +1,5 @@
 = Version History =
-x.x:
+3.3 (2013-0-05):
 
 - added: Spanish translation (thanks to Iknaxio Marx http://community.elgg.org/profile/iknaxio)
 - added: notification on friend accept
