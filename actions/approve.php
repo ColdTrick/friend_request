@@ -6,19 +6,9 @@
 		$user = elgg_get_logged_in_user_entity();
 		
 		if(remove_entity_relationship($friend->getGUID(), "friendrequest", $user->getGUID())) {
-			global $CONFIG;
-			
-			if(isset($CONFIG->events["create"]["friend"])) {
-				$oldEventHander = $CONFIG->events["create"]["friend"];
-				$CONFIG->events["create"]["friend"] = array();			//Removes any event handlers
-			}
 			
 			$user->addFriend($friend->getGUID());
 			$friend->addFriend($user->getGUID());			//Friends mean reciprical...
-			
-			if(isset($CONFIG->events["create"]["friend"])) {
-				$CONFIG->events["create"]["friend"] = $oldEventHander;
-			}
 			
 			// notify the user about the acceptance
 			$subject = elgg_echo("friend_request:approve:subject", array($user->name));
