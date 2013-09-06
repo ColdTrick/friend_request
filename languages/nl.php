@@ -1,5 +1,9 @@
 <?php
 $language = array (
+  'friend_request:approve:subject' => '%s heeft je vriendschapsverzoek geaccepteerd',
+  'friend_request:approve:message' => 'Beste %s,
+
+%s heeft je vriendschapsverzoek geaccepteerd.',
   'friend_request' => 'Vriendschap verzoek',
   'friend_request:menu' => 'Vriendschap verzoeken',
   'friend_request:title' => 'Vriendschap verzoeken voor: %s',
