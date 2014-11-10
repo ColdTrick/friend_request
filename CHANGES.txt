@@ -1,6 +1,6 @@
 = Version History =
 
-x.x:
+3.3.1 (2014-11-10):
 
 - changed: restored the default events, couldn't find the reason for the removal (fixes #4)
 - applied Elgg coding standards
