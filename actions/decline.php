@@ -10,7 +10,12 @@ if (!empty($friend)) {
 		$subject = elgg_echo("friend_request:decline:subject", array($user->name));
 		$message = elgg_echo("friend_request:decline:message", array($friend->name, $user->name));
 		
-		notify_user($friend->getGUID(), $user->getGUID(), $subject, $message);
+		$params = array(
+			"action" => "friend_request_decline",
+			"object" => $user
+		);
+		
+		notify_user($friend->getGUID(), $user->getGUID(), $subject, $message, $params);
 		
 		system_message(elgg_echo("friend_request:decline:success"));
 	} else {
