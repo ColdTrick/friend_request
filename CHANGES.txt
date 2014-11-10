@@ -3,6 +3,7 @@
 x.x:
 
 - changed: restored the default events, couldn't find the reason for the removal (fixes #4)
+- applied Elgg coding standards
 
 3.3 (2013-04-05):
 
