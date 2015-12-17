@@ -1,5 +1,11 @@
 <?php
-$language = array (
+/**
+ * This file was created by Translation Editor v2.0.1
+ * On 2015-12-17 12:04
+ */
+
+return array (
+  'friend_request:settings:add_river' => 'Creëer een melding op de river als een vriendschapsverzoek wordt geaccepteerd',
   'friend_request:approve:subject' => '%s heeft je vriendschapsverzoek geaccepteerd',
   'friend_request:approve:message' => 'Beste %s,
 
@@ -39,4 +45,3 @@ Indien je niet bent aangemeld zul je worden doorgestuurd naar de startpagina, na
   'friend_request:sent:title' => 'Verzonden vriendschap verzoeken',
   'friend_request:sent:none' => 'Er zijn geen verzonden vriendschap verzoeken gevonden die wachten op goedkeuring',
 );
-add_translation("nl", $language);

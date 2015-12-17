@@ -36,18 +36,7 @@ if (empty($user) || empty($friend)) {
 			system_message(elgg_echo("friend_request:approve:successful", array($friend->name)));
 			
 			// add to river
-			elgg_create_river_item(array(
-				"view" => "river/relationship/friend/create",
-				"action_type" => "friend",
-				"subject_guid" => $user->getGUID(),
-				"object_guid" => $friend->getGUID(),
-			));
-			elgg_create_river_item(array(
-				"view" => "river/relationship/friend/create",
-				"action_type" => "friend",
-				"subject_guid" => $friend->getGUID(),
-				"object_guid" => $user->getGUID(),
-			));
+			friend_request_create_river_events($user->getGUID(), $friend->getGUID());
 			
 			forward(REFERER);
 		} else {

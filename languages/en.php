@@ -8,6 +8,10 @@ $english = array(
 	
 	'friend_request:friend:add:pending' => "Friend request pending",
 	
+	// plugins settings
+	'friend_request:settings:add_river' => "Create river entries when a friend request is accepted",
+	
+	// notifications
 	'friend_request:newfriend:subject' => "%s wants to be your friend!",
 	'friend_request:newfriend:body' => "%s wants to be your friend! But they are waiting for you to approve the request...so login now so you can approve the request!
 
