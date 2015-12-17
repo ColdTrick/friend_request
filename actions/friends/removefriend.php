@@ -10,7 +10,7 @@ $friend = get_user($friend_guid);
 if (!empty($friend)) {
 	$user = elgg_get_logged_in_user_entity();
 	
-	try{
+	try {
 		$user->removeFriend($friend->getGUID());
 		
 		// remove river items
