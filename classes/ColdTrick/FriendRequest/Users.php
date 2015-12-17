@@ -91,7 +91,7 @@ class Users {
 			return;
 		}
 		
-		$entity = elgg_extract("entity", $params);
+		$entity = elgg_extract('entity', $params);
 		if (!($entity instanceof \ElggUser)) {
 			return;
 		}
