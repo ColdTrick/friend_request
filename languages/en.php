@@ -1,5 +1,6 @@
 <?php
-$english = array(
+
+return [
 	'friend_request' => "Friend Request",
 	'friend_request:menu' => "Friend Requests",
 	'friend_request:title' => "Friend Requests for: %s",
@@ -59,6 +60,4 @@ Make sure you are logged into the website before clicking on the following link 
 	// Sent
 	'friend_request:sent:title' => "Sent Friend requests",
 	'friend_request:sent:none' => "No sent requests pending approval",
-);
-				
-add_translation("en", $english);
+];
