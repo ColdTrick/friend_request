@@ -1,6 +1,12 @@
 Version History
 ===============
 
+4.1 (2015-12-17):
+
+- added: admin option to disable river item creation (fixes #5)
+- added: composer support
+- chore: refactoring for performance and coding style
+
 4.0 (2014-11-10):
 
 - changes for Elgg 1.9
