@@ -11,7 +11,7 @@ return [
 
 
 	// plugins settings
-	'friend_request:settings:add_river' => "Créer des entéres dans la rivière lorsqu'une demande de conteact est acceptée",
+	'friend_request:settings:add_river' => "Ajouter une entrée dans la rivière lorsqu'une demande de contact est acceptée",
 
 	// notifications
 	'friend_request:newfriend:subject' => "%s souhaite devenir votre contact !",
