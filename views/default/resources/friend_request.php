@@ -16,30 +16,11 @@ elgg_push_context('friends');
 elgg_push_breadcrumb(elgg_echo('friends'), "friends/{$user->username}");
 elgg_push_breadcrumb(elgg_echo('friend_request:menu'));
 
-$options = [
-	'type' => 'user',
-	'limit' => false,
-	'relationship' => 'friendrequest',
-	'relationship_guid' => $user->getGUID(),
-	'inverse_relationship' => true,
-];
-
-// Get all received requests
-$received_requests = elgg_get_entities_from_relationship($options);
-
-// Get all received requests
-$options['inverse_relationship'] = false;
-$sent_requests = elgg_get_entities_from_relationship($options);
-
 // Get page elements
 $title_text = elgg_echo('friend_request:title', [$user->name]);
 
-$content = elgg_view('friend_request/received', [
-	'entities' => $received_requests,
-]);
-$content .= elgg_view('friend_request/sent', [
-	'entities' => $sent_requests,
-]);
+$content = elgg_view('friend_request/received');
+$content .= elgg_view('friend_request/sent');
 
 // Build page
 $body = elgg_view_layout('content', [
