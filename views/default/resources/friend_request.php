@@ -9,6 +9,8 @@ if (!$user instanceof ElggUser || !$user->canEdit()) {
 	forward('', '404');
 }
 
+elgg_set_page_owner_guid($user->guid);
+
 // set the correct context and page owner
 elgg_push_context('friends');
 
