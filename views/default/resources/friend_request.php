@@ -2,14 +2,11 @@
 
 elgg_gatekeeper();
 
-$user = elgg_get_page_owner_entity();
-if (!($user instanceof ElggUser)) {
-	$user = elgg_get_logged_in_user_entity();
-	elgg_set_page_owner_guid($user->getGUID());
-}
+$username = elgg_extract('username', $vars);
+$user = get_user_by_username($username);
 
-if (!$user->canEdit()) {
-	forward(REFERER);
+if (!$user instanceof ElggUser || !$user->canEdit()) {
+	forward('', '404');
 }
 
 // set the correct context and page owner
