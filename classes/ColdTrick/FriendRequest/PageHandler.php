@@ -15,7 +15,7 @@ class PageHandler {
 
 		if (isset($page[0])) {
 			$username = $page[0];
-		} else {
+		} elseif (elgg_is_logged_in()) {
 			$user = elgg_get_logged_in_user_entity();
 			$username = $user->username;
 		}
