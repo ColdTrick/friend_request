@@ -4,7 +4,7 @@ elgg_require_js('friend_request/item');
 
 $size = elgg_extract('size', $vars, 'small');
 $friend = elgg_extract('entity', $vars);
-$user = elgg_get_logged_in_user_entity();
+$user = elgg_get_page_owner_entity();
 
 if (!$friend instanceof ElggUser || !$user instanceof ElggUser) {
 	return;
