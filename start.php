@@ -27,7 +27,7 @@ function friend_request_init() {
 	
 	// Events
 	// unregister default elgg friend handler
-	elgg_unregister_event_handler('create', 'friend', '_elgg_send_friend_notification');
+	elgg_unregister_event_handler('create', 'relationship', '_elgg_send_friend_notification');
 	// Handle our add action event
 	elgg_register_event_handler('create', 'relationship', '\ColdTrick\FriendRequest\Relationships::createFriendRequest');
 	
