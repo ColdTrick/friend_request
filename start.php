@@ -20,7 +20,7 @@ function friend_request_init() {
 	
 	// Page handlers
 	// unregister friendsof
-	elgg_unregister_page_handler('friendsof');
+	elgg_register_page_handler('friendsof', '\ColdTrick\FriendRequest\PageHandler::friendsofForward');
 	
 	// This will let users view their friend requests
 	elgg_register_page_handler('friend_request', '\ColdTrick\FriendRequest\PageHandler::friendRequest');

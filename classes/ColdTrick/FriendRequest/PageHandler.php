@@ -30,4 +30,16 @@ class PageHandler {
 		return true;
 	}
 
+	/**
+	 * Forwards friendsof pagehandler to friends
+	 *
+	 * @param array $page the url segments
+	 *
+	 * @return bool
+	 */
+	public static function friendsofForward($page) {
+		$username = elgg_extract('0', $page);
+		forward("friends/$username");
+	}
+
 }
