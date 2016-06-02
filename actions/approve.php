@@ -24,8 +24,8 @@ $user->addFriend($friend->getGUID());
 $friend->addFriend($user->getGUID()); //Friends mean reciprocal...
 
 // notify the user about the acceptance
-$subject = elgg_echo('friend_request:approve:subject', [$user->name]);
-$message = elgg_echo('friend_request:approve:message', [$friend->name, $user->name]);
+$subject = elgg_echo('friend_request:approve:subject', [$user->name], $friend->language);
+$message = elgg_echo('friend_request:approve:message', [$friend->name, $user->name], $friend->language);
 
 $params = [
 	'action' => 'add_friend',

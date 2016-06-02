@@ -33,11 +33,11 @@ class Relationships {
 		$view_friends_url = elgg_normalize_url("friend_request/{$new_friend->username}");
 		
 		// Notify target user
-		$subject = elgg_echo('friend_request:newfriend:subject', [$requester->name]);
+		$subject = elgg_echo('friend_request:newfriend:subject', [$requester->name], $new_friend->language);
 		$message = elgg_echo('friend_request:newfriend:body', [
 			$requester->name,
 			$view_friends_url
-		]);
+		], $new_friend->language);
 		
 		$params = [
 			'action' => 'friend_request',

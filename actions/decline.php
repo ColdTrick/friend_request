@@ -20,8 +20,8 @@ if (!remove_entity_relationship($friend->getGUID(), 'friendrequest', $user->getG
 	forward(REFERER);
 }
 
-$subject = elgg_echo('friend_request:decline:subject', [$user->name]);
-$message = elgg_echo('friend_request:decline:message', [$friend->name, $user->name]);
+$subject = elgg_echo('friend_request:decline:subject', [$user->name], $friend->language);
+$message = elgg_echo('friend_request:decline:message', [$friend->name, $user->name], $friend->language);
 
 $params = [
 	'action' => 'friend_request_decline',
