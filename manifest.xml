@@ -16,5 +16,16 @@
 		<version>3.1</version>
 	</requires>
 	
+	<requires>
+        <type>plugin</type>
+        <name>friends</name>
+    </requires>
+	
+	<requires>
+        <type>priority</type>
+        <plugin>friends</plugin>
+        <priority>after</priority>
+    </requires>
+	
  	<category>ColdTrick</category>
 </plugin_manifest>

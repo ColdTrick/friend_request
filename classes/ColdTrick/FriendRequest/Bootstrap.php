@@ -35,11 +35,10 @@ class Bootstrap extends PluginBootstrap {
 		$hooks->registerHandler('register', 'menu:topbar', '\ColdTrick\FriendRequest\TopbarMenu::register');
 		$hooks->registerHandler('register', 'menu:page', '\ColdTrick\FriendRequest\PageMenu::registerCleanup');
 		$hooks->registerHandler('register', 'menu:page', '\ColdTrick\FriendRequest\PageMenu::register');
-		$hooks->registerHandler('register', 'menu:user_hover', '\ColdTrick\FriendRequest\Users::registerUserHoverMenu');
 		$hooks->registerHandler('register', 'menu:entity', '\ColdTrick\FriendRequest\Users::registerEntityMenu');
 		
 		// Events
-		elgg_unregister_event_handler('create', 'relationship', '_elgg_send_friend_notification');
+		$this->elgg()->events->unregisterHandler('create', 'relationship', '_elgg_send_friend_notification');
 		$this->elgg()->events->registerHandler('create', 'relationship', '\ColdTrick\FriendRequest\Relationships::createFriendRequest');
 	}
 
@@ -47,7 +46,8 @@ class Bootstrap extends PluginBootstrap {
 	 * {@inheritdoc}
 	 */
 	public function ready() {
-
+		elgg_unregister_plugin_hook_handler('register', 'menu:user_hover', '_elgg_friends_setup_user_hover_menu');
+		elgg_register_plugin_hook_handler('register', 'menu:user_hover', '\ColdTrick\FriendRequest\Users::registerUserHoverMenu');
 	}
 
 	/**

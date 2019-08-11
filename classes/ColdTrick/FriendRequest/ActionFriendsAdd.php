@@ -52,18 +52,11 @@ class ActionFriendsAdd {
 		}
 		
 		else {
-			try {
-				if (!add_entity_relationship($user->guid, 'friendrequest', $friend->guid)) {
-					return elgg_error_response(elgg_echo('friend_request:add:exists', [$friend->getDisplayName()]));
-				}
+			if(!add_entity_relationship($user->guid, 'friendrequest', $friend->guid)) {
+				return elgg_ok_response('', elgg_echo('friend_request:add:exists', [$friend->getDisplayName()]));
+			}
+			else {
 				return elgg_ok_response('', elgg_echo('friend_request:add:successful', [$friend->getDisplayName()]));
-			} catch (Exception $e) {
-				// add_entity_relationship calls insert_data which CAN raise Exceptions.
-				return elgg_error_response(
-					elgg_echo('friend_request:add:exists', [$friend->getDisplayName()]),
-					REFERER,
-					$e->getCode() ? : ELGG_HTTP_INTERNAL_SERVER_ERROR
-				);
 			}
 		}
 	}

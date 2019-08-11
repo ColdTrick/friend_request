@@ -19,18 +19,13 @@ class Users {
 	 */
 	public static function registerEntityMenu(Hook $hook) {
 		$return_value = $hook->getValue();
-		$params = $hook->getParams();
-		
-		if (empty($params) || !is_array($params)) {
-			return;
-		}
 		
 		$user = elgg_get_logged_in_user_entity();
 		if (!$user instanceof \ElggUser) {
 			return;
 		}
 		
-		$entity = elgg_extract('entity', $params);
+		$entity = $hook->getEntityParam();
 		if (!$entity instanceof \ElggUser) {
 			return;
 		}
@@ -40,9 +35,8 @@ class Users {
 			return;
 		}
 
-		
 		// are we friends
-		if (!$entity->isFriendOf($user->guid)) {
+		if ($entity->isFriendsWith($user->guid)) {
 			// no, check if pending request
 			if (check_entity_relationship($user->guid, 'friendrequest', $entity->guid)) {
 				// pending request
@@ -93,18 +87,13 @@ class Users {
 	 */
 	public static function registerUserHoverMenu(Hook $hook) {
 		$return_value = $hook->getValue();
-		$params = $hook->getParams();
 		
-		if (empty($params) || !is_array($params)) {
-			return;
-		}
-	
 		$user = elgg_get_logged_in_user_entity();
 		if (!$user instanceof \ElggUser) {
 			return;
 		}
 		
-		$entity = elgg_extract('entity', $params);
+		$entity = $hook->getEntityParam();
 		if (!$entity instanceof \ElggUser) {
 			return;
 		}
@@ -115,32 +104,56 @@ class Users {
 		}
 		
 		$requested = check_entity_relationship($user->guid, 'friendrequest', $entity->guid);
-		$is_friend = $entity->isFriend($user->guid);
+		$is_friend = $entity->isFriendsWith($user->guid);
+		$isFriend = $entity->isFriend();
 		
-		foreach ($return_value as $index => $item) {
-			// change the text of the button to tell you already requested a friendship
-			switch ($item->getName()) {
-				case 'add_friend':
-					if ($requested) {
-						$item->setItemClass('hidden');
-					}
-					
-					break;
-				case 'remove_friend':
-					if (!$requested && !$is_friend) {
-						unset($return_value[$index]);
-					}
-					break;
-			}
-		}
-		
-		if ($requested) {
+		if ($requested || (!$requested && !$is_friend)){
 			$return_value[] = \ElggMenuItem::factory([
 				'name' => 'friend_request',
 				'text' => elgg_echo('friend_request:friend:add:pending'),
 				'icon' => 'user',
 				'href' => "friend_request/{$user->username}#friend_request_sent_listing",
 				'section' => 'action',
+				'item_class' => $requested ? '' : 'hidden',
+				'data-toggle' => 'add_friend',
+			]);
+
+			$return_value[] = \ElggMenuItem::factory([
+				'name' => 'add_friend',
+				'href' => elgg_generate_action_url('friends/add', [
+					'friend' => $entity->guid,
+				]),
+				'text' => elgg_echo('friend:add'),
+				'icon' => 'user-plus',
+				'section' => 'action',
+				'item_class' => $requested ? 'hidden' : '',
+				'data-toggle' => 'friend_request',
+			]);
+		}
+		
+		else {
+			$return_value[] = \ElggMenuItem::factory([
+				'name' => 'remove_friend',
+				'href' => elgg_generate_action_url('friends/remove', [
+					'friend' => $entity->guid,
+				]),
+				'text' => elgg_echo('friend:remove'),
+				'icon' => 'user-times',
+				'section' => 'action',
+				'item_class' => $isFriend ? '' : 'hidden',
+				'data-toggle' => 'add_friend',
+			]);
+
+			$return_value[] = \ElggMenuItem::factory([
+				'name' => 'add_friend',
+				'href' => elgg_generate_action_url('friends/add', [
+					'friend' => $entity->guid,
+				]),
+				'text' => elgg_echo('friend:add'),
+				'icon' => 'user-plus',
+				'section' => 'action',
+				'item_class' => $isFriend ? 'hidden' : '',
+				'data-toggle' => 'remove_friend',
 			]);
 		}
 		
