@@ -2,6 +2,9 @@
 
 namespace ColdTrick\FriendRequest;
 
+use Elgg\Hook;
+use ElggMenuItem;
+
 class PageMenu {
 	
 	/**
@@ -14,7 +17,9 @@ class PageMenu {
 	 *
 	 * @return void|\ElggMenuItem[]
 	 */
-	public static function registerCleanup($hook, $type, $return_value, $params) {
+	public static function registerCleanup(Hook $hook) {
+		
+		$return_value = $hook->getValue();
 		
 		if (empty($return_value) || !is_array($return_value)) {
 			return;
@@ -44,10 +49,11 @@ class PageMenu {
 	 *
 	 * @return void|\ElggMenuItem[]
 	 */
-	public static function register($hook, $type, $return_value, $params) {
+	public static function register(Hook $hook) {
+		$return_value = $hook->getValue();
 		
 		$page_owner = elgg_get_page_owner_entity();
-		if (!($page_owner instanceof \ElggUser)) {
+		if (!$page_owner instanceof \ElggUser) {
 			return;
 		}
 		
@@ -60,11 +66,11 @@ class PageMenu {
 			'type' => 'user',
 			'count' => true,
 			'relationship' => 'friendrequest',
-			'relationship_guid' => $page_owner->getGUID(),
+			'relationship_guid' => $page_owner->guid,
 			'inverse_relationship' => true,
 		];
 		
-		$count = elgg_get_entities_from_relationship($options);
+		$count = elgg_get_entities($options);
 		$extra = '';
 		if (!empty($count)) {
 			$extra = ' [' . $count . ']';

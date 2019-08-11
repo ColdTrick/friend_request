@@ -14,23 +14,29 @@ $buttons = array();
 if (check_entity_relationship($friend->guid, 'friendrequest', $user->guid)) {
 	// received request
 	$buttons[] = elgg_view('output/url', [
-		'href' => "action/friend_request/approve?user_guid={$user->guid}&friend_guid={$friend->guid}",
+		'href' => elgg_generate_action_url('friend_request/approve', [
+			'user_guid' => $user->guid,
+			'friend_guid' => $friend->guid,
+		]),
 		'text' => elgg_echo('friend_request:approve'),
-		'is_action' => true,
 		'class' => 'friend-request-button',
 	]);
 	$buttons[] = elgg_view('output/url', [
-		'href' => "action/friend_request/decline?user_guid={$user->guid}&friend_guid={$friend->guid}",
+		'href' => elgg_generate_action_url('friend_request/decline', [
+			'user_guid' => $user->guid,
+			'friend_guid' => $friend->guid,
+		]),
 		'text' => elgg_echo('friend_request:decline'),
-		'is_action' => true,
 		'class' => 'friend-request-button',
 	]);
 } else if (check_entity_relationship($user->guid, 'friendrequest', $friend->guid)) {
 	// sent request
 	$buttons[] = elgg_view('output/url', [
-		'href' => "action/friend_request/revoke?user_guid={$user->guid}&friend_guid={$friend->guid}",
+		'href' => elgg_generate_action_url('friend_request/revoke', [
+			'user_guid' => $user->guid,
+			'friend_guid' => $friend->guid,
+		]),
 		'text' => elgg_echo('friend_request:revoke'),
-		'is_action' => true,
 		'class' => 'friend-request-button',
 	]);
 }

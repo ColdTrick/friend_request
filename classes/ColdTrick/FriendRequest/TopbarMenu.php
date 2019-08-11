@@ -2,6 +2,9 @@
 
 namespace ColdTrick\FriendRequest;
 
+use Elgg\Hook;
+use ElggMenuItem;
+
 class TopbarMenu {
 	
 	/**
@@ -14,10 +17,11 @@ class TopbarMenu {
 	 *
 	 * @return void|\ElggMenuItem[]
 	 */
-	public static function register($hook, $type, $return_value, $params) {
+	public static function register(Hook $hook) {
+		$return_value = $hook->getValue();
 		
 		$user = elgg_get_logged_in_user_entity();
-		if (empty($user)) {
+		if (!$user instanceof \ElggUser) {
 			return;
 		}
 		
@@ -25,11 +29,11 @@ class TopbarMenu {
 			'type' => 'user',
 			'count' => true,
 			'relationship' => 'friendrequest',
-			'relationship_guid' => $user->getGUID(),
+			'relationship_guid' => $user->guid,
 			'inverse_relationship' => true,
 		];
 	
-		$count = elgg_get_entities_from_relationship($options);
+		$count = elgg_get_entities($options);
 		if (empty($count)) {
 			return;
 		}
@@ -37,7 +41,9 @@ class TopbarMenu {
 		$return_value[] = \ElggMenuItem::factory([
 			'name' => 'friend_request',
 			'href' => "friend_request/{$user->username}",
-			'text' => elgg_view_icon('user') . elgg_format_element('span', ['class' => 'friend-request-new'], $count),
+			'text' => elgg_echo('friend_request:menu'),
+			'icon' => 'user',
+			'badge' => $count ? $count : null,
 			'title' => elgg_echo('friend_request:menu'),
 			'priority' => 301
 		]);

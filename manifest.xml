@@ -13,7 +13,7 @@
 	
 	<requires>
 		<type>elgg_release</type>
-		<version>2.0</version>
+		<version>3.1</version>
 	</requires>
 	
  	<category>ColdTrick</category>

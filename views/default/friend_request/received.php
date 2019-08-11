@@ -12,6 +12,6 @@ $options = [
 	'item_view' => 'friend_request/item',
 ];
 
-$content = elgg_list_entities_from_relationship($options);
+$content = elgg_list_entities($options);
 
 echo elgg_view_module('info', elgg_echo('friend_request:received:title'), $content, ['class' => 'mbm']);
