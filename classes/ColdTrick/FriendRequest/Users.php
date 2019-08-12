@@ -34,11 +34,14 @@ class Users {
 			// looking at yourself
 			return;
 		}
+		
+		$requested = check_entity_relationship($user->guid, 'friendrequest', $entity->guid);
+		$isFriend = $entity->isFriend();
 
 		// are we friends
-		if ($entity->isFriendsWith($user->guid)) {
+		if (!$isFriend) {
 			// no, check if pending request
-			if (check_entity_relationship($user->guid, 'friendrequest', $entity->guid)) {
+			if ($requested) {
 				// pending request
 				$return_value[] = \ElggMenuItem::factory([
 					'name' => 'friend_request',
@@ -104,7 +107,6 @@ class Users {
 		}
 		
 		$requested = check_entity_relationship($user->guid, 'friendrequest', $entity->guid);
-		$is_friend = $entity->isFriendsWith($user->guid);
 		$isFriend = $entity->isFriend();
 		
 		if (($requested && !$isFriend) || (!$requested && !$isFriend)){
