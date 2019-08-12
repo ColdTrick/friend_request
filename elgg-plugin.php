@@ -5,24 +5,16 @@
 return [
 	'bootstrap' => \ColdTrick\FriendRequest\Bootstrap::class,
 	'actions' => [
-		'friends/add' => [
-			'controller' => \ColdTrick\FriendRequest\ActionFriendsAdd::class,
-		],
+		'friends/add' => [],
 		'friends/remove' => [
-			'controller' => \ColdTrick\FriendRequest\ActionFriendsRemove::class,
+			'filename' => __DIR__ . '/actions/friends/removefriend.php',
 		],
-		'friend_request/approve' => [
-			'controller' => \ColdTrick\FriendRequest\ActionFriendsApprove::class,
-		],
-		'friend_request/decline' => [
-			'controller' => \ColdTrick\FriendRequest\ActionFriendsDecline::class,
-		],
-		'friend_request/revoke' => [
-			'controller' => \ColdTrick\FriendRequest\ActionFriendsRevoke::class,
-		],
+		'friend_request/approve' => [],
+		'friend_request/decline' => [],
+		'friend_request/revoke' => [],
 	],
 	'routes' => [
-		'view:friend_request' => [
+		'collection:user:user:friend_request' => [
 			'path' => '/friend_request/{username}',
 			'resource' => 'friend_request',
 			'middleware' => [

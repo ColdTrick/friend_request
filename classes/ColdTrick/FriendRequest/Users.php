@@ -107,7 +107,7 @@ class Users {
 		$is_friend = $entity->isFriendsWith($user->guid);
 		$isFriend = $entity->isFriend();
 		
-		if ($requested || (!$requested && !$is_friend)){
+		if (($requested && !$isFriend) || (!$requested && !$isFriend)){
 			$return_value[] = \ElggMenuItem::factory([
 				'name' => 'friend_request',
 				'text' => elgg_echo('friend_request:friend:add:pending'),
@@ -129,9 +129,7 @@ class Users {
 				'item_class' => $requested ? 'hidden' : '',
 				'data-toggle' => 'friend_request',
 			]);
-		}
-		
-		else {
+		} else if ($isFriend){
 			$return_value[] = \ElggMenuItem::factory([
 				'name' => 'remove_friend',
 				'href' => elgg_generate_action_url('friends/remove', [

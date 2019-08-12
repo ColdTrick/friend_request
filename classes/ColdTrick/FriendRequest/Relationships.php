@@ -16,7 +16,7 @@ class Relationships {
 	 *
 	 * @return void
 	 */
-	public function createFriendRequest(Event $event) {
+	public static function createFriendRequest(Event $event) {
 		
 		$relationship = $event->getObject();
 		
@@ -35,13 +35,11 @@ class Relationships {
 			return;
 		}
 		
-		$view_friends_url = elgg_normalize_url("friend_request/{$new_friend->username}");
-		
 		// Notify target user
 		$subject = elgg_echo('friend_request:newfriend:subject', [$requester->getDisplayName()], $new_friend->language);
 		$message = elgg_echo('friend_request:newfriend:body', [
 			$requester->getDisplayName(),
-			$view_friends_url
+			elgg_generate_url('collection:user:user:friend_request', ['username' => $new_friend->username]),
 		], $new_friend->language);
 		
 		$params = [

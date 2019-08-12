@@ -20,11 +20,7 @@ class PageMenu {
 	public static function registerCleanup(Hook $hook) {
 		
 		$return_value = $hook->getValue();
-		
-		if (empty($return_value) || !is_array($return_value)) {
-			return;
-		}
-		
+
 		$remove_items = [
 			'friends:of',
 		];
@@ -37,6 +33,7 @@ class PageMenu {
 		}
 		
 		return $return_value;
+
 	}
 	
 	/**
@@ -71,16 +68,13 @@ class PageMenu {
 		];
 		
 		$count = elgg_get_entities($options);
-		$extra = '';
-		if (!empty($count)) {
-			$extra = ' [' . $count . ']';
-		}
 		
 		// add menu item
 		$return_value[] = \ElggMenuItem::factory([
 			'name' => 'friend_request',
-			'text' => elgg_echo('friend_request:menu') . $extra,
+			'text' => elgg_echo('friend_request:menu'),
 			'href' => "friend_request/{$page_owner->username}",
+			'badge' => $count ? $count : null,
 			'contexts' => ['friends', 'friendsof', 'collections', 'messages'],
 		]);
 		

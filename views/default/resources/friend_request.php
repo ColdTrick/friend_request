@@ -4,13 +4,17 @@ $request = elgg_extract('request', $vars);
 /* @var $request \Elgg\Request */
 
 $username = $request->getParam('username');
+if (!$username) {
+	throw new \Elgg\EntityNotFoundException();
+}
+
 if ($username) {
 	$user = get_user_by_username($username);
 } else {
 	$user = elgg_get_logged_in_user_entity();
 }
 
-if (!$user) {
+if (!$user instanceof ElggUser || !$user->canEdit()) {
 	throw new \Elgg\EntityNotFoundException();
 }
 

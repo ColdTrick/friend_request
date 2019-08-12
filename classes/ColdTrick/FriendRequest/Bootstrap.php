@@ -33,7 +33,7 @@ class Bootstrap extends PluginBootstrap {
 		//Menus
 		$hooks = $this->elgg()->hooks;
 		$hooks->registerHandler('register', 'menu:topbar', '\ColdTrick\FriendRequest\TopbarMenu::register');
-		$hooks->registerHandler('register', 'menu:page', '\ColdTrick\FriendRequest\PageMenu::registerCleanup');
+		$hooks->registerHandler('register', 'menu:page', '\ColdTrick\FriendRequest\PageMenu::registerCleanup', 900);
 		$hooks->registerHandler('register', 'menu:page', '\ColdTrick\FriendRequest\PageMenu::register');
 		$hooks->registerHandler('register', 'menu:entity', '\ColdTrick\FriendRequest\Users::registerEntityMenu');
 		
